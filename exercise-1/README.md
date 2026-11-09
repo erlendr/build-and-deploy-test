@@ -58,6 +58,14 @@ You will learn to:
 
 :pencil2: Sign up for a free account at [app.netlify.com/signup](https://app.netlify.com/signup). Choosing _Sign up with GitHub_ is the quickest option.
 
+:pencil2: When Netlify asks _What is the name of your team?_, enter your own name or your GitHub username.
+
+:book: On Netlify, every project belongs to a _team_. Companies use teams to share projects and billing between colleagues. For this workshop your team is just you, and the free plan is all we need.
+
+:pencil2: Next, Netlify asks you to _Deploy your first project_. Select **Skip this step for now** at the top of the page.
+
+> :exclamation: Don't choose _Import a Git repository_. Netlify would then build and deploy the app by itself, and we want to build that pipeline ourselves with GitHub Actions. We'll create the Netlify project in exercise 3.
+
 ## 1.3 Getting the code
 
 :bulb: The exercises assume that you have some prior experience using git. If you are new to git, consider reading the following guides before continuing:

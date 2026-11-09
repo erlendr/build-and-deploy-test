@@ -12,7 +12,7 @@ You will learn:
 
 ## 3.1 Creating a site on Netlify
 
-:pencil2: If you haven't already, sign up for a free account at [app.netlify.com/signup](https://app.netlify.com/signup). Choosing _Sign up with GitHub_ is the quickest option.
+:pencil2: If you haven't already, sign up for a free account at [app.netlify.com/signup](https://app.netlify.com/signup), following the steps in [exercise 1.2.2](../exercise-1/README.md#122-netlify-account). Remember to **skip** _Deploy your first project_ at the end of the sign-up.
 
 :book: Before we automate anything, let's do a deploy the _manual_ way. This is how many people deploy their first site, and it's exactly what our pipeline is going to replace.
 
@@ -24,11 +24,19 @@ npm run build
 
 :pencil2: Open [app.netlify.com/drop](https://app.netlify.com/drop) and drag and drop the `code/dist` folder onto the page.
 
-:book: Netlify creates a new _project_ for you with a random name, and your app is now live! Open the URL Netlify shows you (something like `https://random-name-123456.netlify.app`).
+:book: Netlify creates a new _project_ for you with a random name, and shows _Your project is ready!_ with the URL of your app (something like `https://cool-biscuit-e7be17.netlify.app`).
 
-:pencil2: Optional: give your project a nicer name under _Project configuration_ → _Change project name_.
+:pencil2: Netlify says the project is _currently visible only to your team_. Make sure _Who can access your live project_ is set to _Public_, and select **Make public**. Otherwise everyone else gets a Netlify login page instead of your app.
 
-:pencil2: Go to _Project configuration_ → _General_ → _Project details_ and copy the **Project ID**. You'll need it in a moment.
+:pencil2: Open the URL in a private browser window to check that your app is live for everyone.
+
+:pencil2: Optional: give your project a nicer name by selecting _Edit_ next to the domain. The name becomes part of your URL.
+
+:pencil2: Open your project's overview page by selecting the project name in the breadcrumb at the top of the page (_Projects_ / _your-project-name_). You can also select the _Projects_ icon (stacked layers, just below your team's initial) in the narrow menu on the far left, and then your project. Next to the project name you should see a green **Public** badge.
+
+:pencil2: Select _Project configuration_ (the button under the project name, or the item in the menu on the left), then copy the **Project ID** from _General_ → _Project details_. Netlify notes that it's _also known as Site ID_. You'll need it in a moment.
+
+:bulb: You'll come back to this project page later. It lists every deploy under _Activity_.
 
 :question: What would happen if every developer on a team deployed by dragging folders from their own computer? How would you know which version is live, and whether it was tested?
 
@@ -38,11 +46,15 @@ npm run build
 
 :pencil2: Open [User settings → Applications → Personal access tokens](https://app.netlify.com/user/applications#personal-access-tokens) and select _New access token_.
 
-:pencil2: Give it a description like `build-and-deploy GitHub Actions`, and set an **expiration** date, for example 30 days.
+:pencil2: Enter a description like `build-and-deploy GitHub Actions`, so you'll remember later what the token is used for.
 
-:pencil2: Select _Generate token_ and copy the token. Netlify only shows it once.
+:pencil2: Keep the default _Expiration_ of **7 days**. That's plenty for this workshop, and you can finish at home.
 
-:bulb: In real life you want tokens with **as few permissions as possible** and **a limited lifetime**. A Netlify personal access token can do everything your user can do, so the expiry date is your main protection if it leaks. Many cloud providers also let you limit a token to specific projects or actions. Use that when you can.
+:pencil2: Select _Generate token_. Netlify shows _New token created_ with your token.
+
+:exclamation: Netlify only shows the token **once**. Keep this page open, and do the next step (3.3) in a new browser tab. Copy the token with the copy button when you need it, and only select _Done_ after you've saved it as a GitHub secret. If you lose it, just delete it and create a new one.
+
+:bulb: In real life you want tokens with **as few permissions as possible** and **a limited lifetime**. A Netlify personal access token can do everything your user can do, so the expiry date is your main protection if it leaks. When the token expires, the deploy job fails with an authentication error. You then create a new token and update the secret. Teams do this regularly, and it's called _rotating_ a secret. Many cloud providers also let you limit a token to specific projects or actions. Use that when you can.
 
 > :exclamation::exclamation: **Never share your API token with anyone else or commit it to the repository.** Anyone with the token can deploy anything to your sites. :exclamation::exclamation:
 
@@ -54,11 +66,13 @@ npm run build
 
 :pencil2: In the left hand menu, under _Security_, select _Secrets and variables_ → _Actions_.
 
-:pencil2: Select _New repository secret_. Set _Name_ to `NETLIFY_AUTH_TOKEN` and _Secret_ to your API token. Select _Add secret_.
+:pencil2: Select _New repository secret_. Set _Name_ to `NETLIFY_AUTH_TOKEN` and _Secret_ to your API token (use the copy button on the Netlify page you kept open). Select _Add secret_.
+
+:pencil2: Now you can select _Done_ on the Netlify token page.
 
 :pencil2: Select _New repository secret_ again. Set _Name_ to `NETLIFY_SITE_ID` and _Secret_ to the Project ID you copied earlier. Select _Add secret_.
 
-:bulb: The project ID isn't really a secret, but storing it next to the token keeps the configuration in one place.
+:bulb: The project ID isn't really a secret, but storing it next to the token keeps the configuration in one place. The Netlify CLI calls it a _site ID_, hence the secret name.
 
 ## 3.4 Deploying the app using GitHub Actions
 
